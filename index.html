@@ -72,7 +72,8 @@
             display: flex;
             flex-direction: column;
             gap: 5px;
-            z-index: 1001;
+            z-index: 1003;
+            position: relative;
         }
 
         .hamburger span {
@@ -104,13 +105,33 @@
             height: 100vh;
             background: var(--primary-bg);
             padding: 80px 2rem;
-            transition: right 0.4s ease;
+            transition: right 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             border-left: 1px solid var(--border-rose);
+            z-index: 1002;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0);
         }
 
         .nav-menu.active {
             right: 0;
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
         }
+
+        .nav-menu ul li {
+            opacity: 0;
+            transform: translateX(20px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .nav-menu.active ul li {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .nav-menu.active ul li:nth-child(1) { transition-delay: 0.1s; }
+        .nav-menu.active ul li:nth-child(2) { transition-delay: 0.15s; }
+        .nav-menu.active ul li:nth-child(3) { transition-delay: 0.2s; }
+        .nav-menu.active ul li:nth-child(4) { transition-delay: 0.25s; }
+        .nav-menu.active ul li:nth-child(5) { transition-delay: 0.3s; }
 
         .nav-menu ul {
             list-style: none;
@@ -392,6 +413,194 @@
             text-align: center;
         }
 
+        /* Article Modal */
+        .article-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .article-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: var(--primary-bg);
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            background: var(--hero-overlay);
+            color: #fff;
+            padding: 1.5rem 2rem;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: var(--accent-cyan);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            padding-right: 2rem;
+            line-height: 1.4;
+        }
+
+        .modal-meta {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: var(--border-rose);
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: var(--accent-cyan);
+            border-radius: 4px;
+        }
+
+        .modal-article-content {
+            font-size: 1rem;
+            line-height: 1.9;
+            color: #444;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .modal-article-content p {
+            margin-bottom: 1rem;
+        }
+
+        .modal-footer {
+            padding: 1rem 2rem;
+            border-top: 1px solid var(--border-rose);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-author {
+            color: var(--accent-cyan);
+            font-weight: 500;
+        }
+
+        .modal-share {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .modal-share button {
+            background: transparent;
+            border: 1px solid var(--border-rose);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-share button:hover {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: #fff;
+        }
+
+        /* Clickable article card */
+        .article-card {
+            border: 1px solid var(--border-rose);
+            padding: 1.5rem;
+            background: var(--primary-bg);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            border-color: var(--accent-cyan);
+        }
+
+        .read-more-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--accent-cyan);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .article-card:hover .read-more-link {
+            gap: 0.6rem;
+        }
+
         /* Contact Section */
         .contact {
             padding: 5rem 2rem;
@@ -561,17 +770,21 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
-            z-index: 999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            z-index: 1001;
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
 
         .nav-overlay.active {
             opacity: 1;
             visibility: visible;
         }
+
+
     </style>
 </head>
 <body>
@@ -685,6 +898,36 @@
         </div>
     </section>
 
+    <!-- Article Modal -->
+    <div class="article-modal" id="articleModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+                <h2 class="modal-title" id="modalTitle">Article Title</h2>
+                <div class="modal-meta">
+                    <span id="modalReadTime"><i class="far fa-clock"></i> 5 min read</span>
+                    <span id="modalDate"><i class="far fa-calendar"></i> 2025</span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-article-content" id="modalContent">
+                    Article content will appear here...
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="modal-author"><i class="fas fa-user"></i> @utkarshmauryaai</span>
+                <div class="modal-share">
+                    <button onclick="shareArticle('twitter')" title="Share on Twitter"><i class="fab fa-twitter"></i></button>
+                    <button onclick="shareArticle('facebook')" title="Share on Facebook"><i class="fab fa-facebook-f"></i></button>
+                    <button onclick="shareArticle('linkedin')" title="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></button>
+                    <button onclick="copyArticleLink()" title="Copy Link"><i class="fas fa-link"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer>
         <p>&copy; 2025 Artificial Earth Innovations. All Rights Reserved.</p>
@@ -743,6 +986,8 @@
         fadeElements.forEach(el => observer.observe(el));
 
         // Articles API - Show only latest 3 on homepage
+        let homeArticles = [];
+
         async function fetchArticles() {
             const loadingEl = document.getElementById('articlesLoading');
             const gridEl = document.getElementById('articlesGrid');
@@ -754,14 +999,14 @@
                 loadingEl.style.display = 'none';
                 
                 // Show only the latest 3 articles on homepage
-                const latestArticles = allArticles.slice(0, 3);
+                homeArticles = allArticles.slice(0, 3);
                 
-                gridEl.innerHTML = latestArticles.map(article => {
+                gridEl.innerHTML = homeArticles.map((article, index) => {
                     const readTime = article.content ? Math.ceil(article.content.split(' ').length / 200) : 3;
                     const excerpt = article.content ? article.content.substring(0, 120) + '...' : 'No content available.';
                     
                     return `
-                        <article class="article-card fade-in visible">
+                        <article class="article-card fade-in visible" onclick="openArticleModal(${index})">
                             <div class="article-meta">
                                 <span><i class="far fa-clock"></i> ${readTime} min read</span>
                                 <span>${article.date || '2025'}</span>
@@ -769,11 +1014,12 @@
                             <h3 class="article-title">${article.title || 'Untitled Article'}</h3>
                             <p class="article-excerpt">${excerpt}</p>
                             <span class="article-author"><i class="fas fa-user"></i> @utkarshmauryaai</span>
+                            <div class="read-more-link">Read Full Article <i class="fas fa-arrow-right"></i></div>
                         </article>
                     `;
                 }).join('');
                 
-                if (latestArticles.length === 0) {
+                if (homeArticles.length === 0) {
                     gridEl.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: #999;">No articles found.</p>';
                 }
             } catch (error) {
@@ -784,6 +1030,94 @@
 
         // Initialize articles fetch
         fetchArticles();
+
+        // Modal Functions
+        let currentArticle = null;
+
+        function openArticleModal(index) {
+            const article = homeArticles[index];
+            if (!article) return;
+            
+            currentArticle = article;
+            
+            const modal = document.getElementById('articleModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            const modalReadTime = document.getElementById('modalReadTime');
+            const modalDate = document.getElementById('modalDate');
+            
+            const readTime = article.content ? Math.ceil(article.content.split(' ').length / 200) : 3;
+            
+            modalTitle.textContent = article.title || 'Untitled Article';
+            modalReadTime.innerHTML = `<i class="far fa-clock"></i> ${readTime} min read`;
+            modalDate.innerHTML = `<i class="far fa-calendar"></i> ${article.date || '2025'}`;
+            
+            // Format the content with proper paragraphs
+            const fullContent = article.content || 'No content available for this article.';
+            const formattedContent = fullContent.split('\n').map(para => 
+                para.trim() ? `<p>${para}</p>` : ''
+            ).join('');
+            
+            modalContent.innerHTML = formattedContent || `<p>${fullContent}</p>`;
+            
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeArticleModal() {
+            const modal = document.getElementById('articleModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentArticle = null;
+        }
+
+        // Close modal events
+        document.getElementById('modalClose').addEventListener('click', closeArticleModal);
+        document.getElementById('articleModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('articleModal')) {
+                closeArticleModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeArticleModal();
+            }
+        });
+
+        // Share functions
+        function shareArticle(platform) {
+            if (!currentArticle) return;
+            
+            const title = encodeURIComponent(currentArticle.title || 'Article');
+            const url = encodeURIComponent(window.location.href);
+            
+            let shareUrl = '';
+            switch (platform) {
+                case 'twitter':
+                    shareUrl = `https://twitter.com/intent/tweet?text=${title}&url=${url}`;
+                    break;
+                case 'facebook':
+                    shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+                    break;
+                case 'linkedin':
+                    shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+                    break;
+            }
+            
+            if (shareUrl) {
+                window.open(shareUrl, '_blank', 'width=600,height=400');
+            }
+        }
+
+        function copyArticleLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                alert('Link copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy link');
+            });
+        }
 
         // Contact Form Submission
         const contactForm = document.getElementById('contactForm');
@@ -842,4 +1176,4 @@
         });
     </script>
 </body>
-  </html>
+    </html>
